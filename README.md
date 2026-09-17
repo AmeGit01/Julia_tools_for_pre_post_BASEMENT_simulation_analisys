@@ -2,7 +2,7 @@
 
 This tool was developed by Amedeo Repele. For any bugs in the code or requests for information, please send a message to _amedeo.repele@unitn.it_. It is assumed here the functionalities and the functioning of BASEMENT [(website)](https://basement.ethz.ch/) are known. The tools reported here are ment to provide additional (useful) tools to the BASEMENT users, partially including some python script developed by ETH [BASEtools](https://basement.ethz.ch/download/tools/python-scripts.html).
 
-List of requirements and performance/utilization tips [here](httos://github.com/AmeGit01/Julia_tools_for_pre_post_BASEMENT_simulation_analisys/blob/main/docs/requirements_tips.md)
+List of requirements and performance/utilization tips [here](https://github.com/AmeGit01/Julia_tools_for_pre_post_BASEMENT_simulation_analisys/blob/main/docs/requirements_tips.md)
 
 The repository contains the julia (and python) scripts for doing the following:  
 
