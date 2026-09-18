@@ -2,11 +2,12 @@
 
 using Plots, Plots.Measures, CSV, DataFrames, Infiltrator, Glob
 
-const InputFolder = joinpath("csv_files", "csv_mesh")
-const OutputFolder = "reports"
+const InputFolder = joinpath("inputs")
+const OutputFolder = joinpath("outputs", "reports")
 
 function main()
-    InputName = "mesh_results_tend"
+	println("Input the .csv mesh file name without file format: ")
+    InputName = readline() # "mesh_results_tend"
 	InputFormat = ".csv"
 	InputFile = InputName * InputFormat
     InputPath = joinpath(InputFolder, InputFile)
@@ -34,7 +35,7 @@ function main()
 
 	idxs_min20 = partialsortperm(data_nonzero.Δt, 1:20)
 
-	OutputPath = joinpath(OutputFolder, InputName*"min20.txt")
+	OutputPath = joinpath(OutputFolder, InputName*"_min20.txt")
 	open(OutputPath, "w") do f
 		println(f, "The 20 cells with smaller Δt are: ")
 		for i ∈ 1:20
