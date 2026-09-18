@@ -1,12 +1,15 @@
 # General requirements
 
 No knowledge of the Julia programming language is required. Simply download the complete repository and use the tool. Everything the user needs is:
+
+## Julia
+
 - Julia installed (this tool was developed using Julia version 1.12.6). Refer to [Installing Julia](https://julialang.org/downloads/) if it is not already installed;
-- **Optional**: It is strongly recommended to add an environment variable to avoid manually activating the project every time the user runs any Julia script.
+- **Optional**: It is strongly recommended to add an environment variable to avoid manually activating the project every time the user runs any Julia script. The README is writted assuming the optional part tip have been followed.
 
-## Optional
+### Optional
 
-### Windows OS
+#### Windows OS
 1. Press the **Windows key** and type **"environment variables"**, then press Enter;
 2. Click the **Environment Variables...** button at the bottom right;
 3. In the **User variables** section (the top one), click **New...**;
@@ -15,7 +18,7 @@ No knowledge of the Julia programming language is required. Simply download the 
     - **Variable value**: ``@.``;
 5. Click **OK** on all windows to save and apply the changes.
 
-### Linux OS
+#### Linux OS
 1. Locate the configuration file (``~/.bashrc`` or ``~/.zshrc``);
 2. Add the following line at the end of the file: ``export JULIA_PROJECT="@."``;
 3. Save the file and refresh the terminal.
@@ -23,7 +26,12 @@ No knowledge of the Julia programming language is required. Simply download the 
 This tells Julia to look for a project and automatically activate it when one is found while launching ``julia`` from the terminal.  
 If you choose not to set **Optional**, remember to always type ``julia --project=@.`` instead of simply typing ``julia``.
 
-## Performance tips (1. PRE: mesh_stats.jl)
+## Python
+- Python must be installed in you computer, there may be the necessity to install some llibraries if you have not already installed for any other reason, just follow the instruction should be displayed.
+
+# Performance tips 
+
+## (1. PRE: mesh_stats.jl)
 
 The code has a relatively high **compilation overhead**, which is generally not an issue if the script is executed only a few times. This happens because Julia must be relaunched every time the script is executed. To avoid this overhead, the user can use Julia's *Daemon Mode*, which compiles the script only once (during the first execution) and then reuses the compiled version while allowing different input files.
 

@@ -13,7 +13,7 @@ def get_attribute_t(data_set,attribute):
             print(f"ERROR: Dataset '{StateVar.get(data_set[0]).name}' does not have attribute '{attribute}'")
 
 #this find the path of any file with this ending
-fileh5 = glob.glob('IC_results.h5')
+fileh5 = glob.glob('inputs/*results.h5')
 
 #import h5py.File with the *_results.h5 ending
 f = h5py.File(fileh5[0],'r')
@@ -76,7 +76,7 @@ result_header = ['Mean wse [m]', 'Discharge [m3/s]', 'Wetted area [m2]', 'Mean b
         ]
 
 # #csv with all the available output, witout specification on the output time and the stringdef name (to be added in a further development)
-# myFile = open('csv_files/results.csv', 'w')
+# myFile = open('outputs/results.csv', 'w')
 # header = ['t [s]','Nodestring name [-]']
 # header.extend(result_header)
 # with myFile:
@@ -86,7 +86,7 @@ result_header = ['Mean wse [m]', 'Discharge [m3/s]', 'Wetted area [m2]', 'Mean b
 # print("\nWriting results.csv complete")
 # 
 # for nodestring_name in nodestring_names:
-#     myFile = open(f'csv_files/results_{nodestring_name}.csv', 'w')
+#     myFile = open(f'outputs/results_{nodestring_name}.csv', 'w')
 #     with myFile:
 #         writer = csv.writer(myFile)
 #         writer.writerow(result_header)
@@ -94,7 +94,7 @@ result_header = ['Mean wse [m]', 'Discharge [m3/s]', 'Wetted area [m2]', 'Mean b
 #     print(f"Writing results_{nodestring_name}.csv complete")
 
 #csv with discharge result only, each column represents one stringdef and the rows are the output timesteps (not precised yet, done in a further developent)
-my2File = open('csv_files/Discharge_IC_results.csv', 'w')
+my2File = open('outputs/discharge.csv', 'w')
 header = ['t [s]']
 header.extend([f'Q_{name} [m3/s]' for name in nodestring_names])
 with my2File:

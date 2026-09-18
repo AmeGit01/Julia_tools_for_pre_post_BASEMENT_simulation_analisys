@@ -115,6 +115,33 @@ If everything has been set up correctly, the terminal should display the followi
 ![terminal output](docs/images/terminal_output.png)
 
 
-# 2. POST: plot_file.jl, custom_plot_file.jl, BMvxxNodestringResults.py
+# 2. POST: plot_all.jl, custom_plot.jl, BMvxxNodestringResults.py
+
+The steps to use this tool are simple, the scripts to be used are 4 in total, and they are:
+
+1. BMv41NodestringResults.py: Python script developed by ETH for extracting the nodestring data to csv (BASEMENT version 4.1);
+2. BMv42NodestringResults.py: Python script developed by ETH for extracting the nodestring data to csv (BASEMENT version 4.2);
+
+Use just one of the two, depending on you BASEMENT version. Also the script for BASEMENT version 4.0 is available online at [BASEtools](https://basement.ethz.ch/download/tools/python-scripts.html), in case you need it, pay attention to the inputs/outputs paths.   
+Both this scripts automatically look for file which end with "results.h5" within the "inputs/" folder. It is recommended to extract one file at a time, otherwise only the first file found will be extracted.  
+Run both this file typing:
+
+````
+python BMv41NodestringResults.py
+````
+````
+python BMv42NodestringResults.py
+````
+
+3. Plot_all.jl: julis script which plot all the node strings, at the execution time, it can be chose to plot all the nodestrings in one graph or to produce a separated file each. Output format is pdf for clearer view, the scripts automatically detect any file which end with "discharge.csv" within the "outputs/" folder.  
+Run the file by typing:
+
+````
+julia include("src/plot_all.jl")
+````
+
+In case something go wrong, refer to the "first run" section above.
+
+4. 
 
 # 3. POST: find_dt.jl

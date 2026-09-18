@@ -22,7 +22,7 @@ def get_attribute_t(data_set, attribute):
         return None
 
 #this find the path of any file with this ending
-fileh5 = glob.glob('*results.h5')
+fileh5 = glob.glob('inputs/*results.h5')
 if not fileh5:
     raise FileNotFoundError("No file found matching '*results.h5'")
 
@@ -147,36 +147,36 @@ def build_row(key):
 sorted_keys = sorted(data_by_key.keys(), key=lambda x: (x[0], x[1]))
 
 # Write results.csv (all nodestrings, all times)
-with open('csv_files/results.csv', 'w', newline='') as f:
-    writer = csv.writer(f)
-    writer.writerow(combined_header)
-    for key in sorted_keys:
-        writer.writerow(build_row(key))
-print("Writing results.csv complete")
+# with open('outputs/results.csv', 'w', newline='') as f:
+#     writer = csv.writer(f)
+#     writer.writerow(combined_header)
+#     for key in sorted_keys:
+#         writer.writerow(build_row(key))
+# print("Writing results.csv complete")
 
 # Write per-nodestring files
-unique_names = sorted({name for (_, name) in sorted_keys})
-for nodestring_name in unique_names:
-    with open(f'csv_files/results_{nodestring_name}.csv', 'w', newline='') as f:
-        writer = csv.writer(f)
-        # Header: t + combined state headers
-        per_header = ['t [s]']
-        for v in present_vars:
-            per_header.extend(result_headers[v])
-        writer.writerow(per_header)
-
-        # Rows only for this nodestring, sorted by time
-        keys_for_name = sorted([k for k in sorted_keys if k[1] == nodestring_name], key=lambda x: x[0])
-        for key in keys_for_name:
-            t_val, _ = key
-            row = [t_val]
-            for v in present_vars:
-                cols = data_by_key[key][v]
-                if cols is None:
-                    cols = [np.nan] * len(result_headers[v])
-                row.extend(cols)
-            writer.writerow(row)
-    print(f"Writing results_{nodestring_name}.csv complete")
+# unique_names = sorted({name for (_, name) in sorted_keys})
+# for nodestring_name in unique_names:
+#     with open(f'outputs/results_{nodestring_name}.csv', 'w', newline='') as f:
+#         writer = csv.writer(f)
+#         # Header: t + combined state headers
+#         per_header = ['t [s]']
+#         for v in present_vars:
+#             per_header.extend(result_headers[v])
+#         writer.writerow(per_header)
+# 
+#         # Rows only for this nodestring, sorted by time
+#         keys_for_name = sorted([k for k in sorted_keys if k[1] == nodestring_name], key=lambda x: x[0])
+#         for key in keys_for_name:
+#             t_val, _ = key
+#             row = [t_val]
+#             for v in present_vars:
+#                 cols = data_by_key[key][v]
+#                 if cols is None:
+#                     cols = [np.nan] * len(result_headers[v])
+#                 row.extend(cols)
+#             writer.writerow(row)
+#     print(f"Writing results_{nodestring_name}.csv complete")
 
 # Write Discharge.csv only if HydState is present
 if 'HydState' in present_vars:
@@ -184,7 +184,7 @@ if 'HydState' in present_vars:
     discharge = np.asarray(discharge)
     # header: t + one column per nodestring
     header = ['t [s]'] + [f'Q_{name} [m3/s]' for name in nodestring_names]
-    with open('csv_files/Discharge.csv', 'w', newline='') as f:
+    with open('outputs/Discharge.csv', 'w', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(header)
         # Ensure numerical rows
