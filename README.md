@@ -142,7 +142,11 @@ julia src/plot_all.jl
 
 In case something go wrong, refer to the "first run" section above.
 
-4. Custom_plot.jl: Same phylosofy of the previous script, but also allow to plot only some of the nodestring, as you prefer. Is is more flexible, but also slower to be used. 
+4. Custom_plot.jl: Same phylosofy of the previous script, but also allow to plot only some of the nodestring, as you prefer. Is is more flexible, but also slower to be used. Run it using:
+
+````
+julia src/custom_plot.jl
+````
 
 # 3. POST: find_dt.jl
 This julia script allow to find exactly which cell is limiting the time step size of a BASEMENT simulation. Since the time step size depends on water depth and water velocity, in addition to the radius of the inscribed circle (BASEHPC), the limiting cell cannot be determined a priori. The script is also producing a report of the 20 cells with present the smallest time step size. The input file i referred to a single frame in time, possible improvements could allow to input a file with all the available times on and than an unique report for the whole simulation will be produced. Run the script using:
