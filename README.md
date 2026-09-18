@@ -127,10 +127,10 @@ Both this scripts automatically look for file which end with "results.h5" within
 Run both this file typing:
 
 ````
-python BMv41NodestringResults.py
+python py_src/BMv41NodestringResults.py
 ````
 ````
-python BMv42NodestringResults.py
+python py_src/BMv42NodestringResults.py
 ````
 
 3. Plot_all.jl: julis script which plot all the node strings, at the execution time, it can be chose to plot all the nodestrings in one graph or to produce a separated file each. Output format is pdf for clearer view, the scripts automatically detect any file which end with "discharge.csv" within the "outputs/" folder.  
