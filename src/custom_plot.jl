@@ -1,3 +1,5 @@
+#!/usr/bin/env julia
+
 using Plots, Plots.Measures, CSV, DataFrames, Infiltrator, Glob
 
 function plot_df!(plt, x, y, label::AbstractString, title::AbstractString)
