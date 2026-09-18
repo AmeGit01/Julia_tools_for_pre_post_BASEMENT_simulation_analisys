@@ -29,3 +29,5 @@ JuliaLocalPreferences.toml
 
 # output file
 outputs/
+
+docs/personal_notes.md
