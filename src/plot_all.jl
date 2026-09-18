@@ -87,7 +87,8 @@ function main()
 		    		plot_df!(plt, xh, df[:, n+1], Cols[n+1][begin:end-7])
 		    	end
 		    end
-		    plot!(plt, size=(800, 600), left_margin=3mm); # display(plt)
+		    plot!(plt, size=(800, 600), left_margin=3mm)
+            display(plt)
 
             OutputPath = joinpath(OutputFolder, "$(FileName).pdf")
 		    savefig(plt, OutputPath) 
