@@ -10,7 +10,15 @@ The repository contains the julia (and python) scripts for doing the following:
 2. POST: Extracting and plotting the discharge (many other quantities are available in principle, so fare only discharge is considered) time series for any nodestring defined within the mesh and the model.json file;
 3. POST: Finding which cell is determining the time step size of the simulation, for each frame saved on the results.h5 file.
 
-It is recommended to run any script with all the needed folder already set up.
+## Folder structure initialization
+One of the python script (Julia_tools_initializer.py) is devoted to initialize the working tree as first time. Once you have cloned this repository (or downloaded in any way) then locate to the folder in which you want to analyze the results and run the python script using:
+````
+cd path/to/results/folder
+python path/to/Julia_tools_initializer.py
+````
+
+The script is initializing the folders and copying into them the python and julia scripts, which are upgraded to the same version you have downloaded the repository. This script require a local version of the repository, or at least a local version of the script to be copied into.  
+The script already contain a default path, but also ask you if it is correct. By opening the script the default path can be modified of course (line 9).
 
 # 1. PRE: mesh_stats.jl
 ## Description
