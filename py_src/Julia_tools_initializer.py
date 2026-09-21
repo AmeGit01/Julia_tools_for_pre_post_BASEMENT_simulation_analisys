@@ -3,6 +3,7 @@
 import os
 import shutil
 from pathlib import Path
+import subprocess
 
 def get_source_directory():
     # DEFAULT PATH 
@@ -51,26 +52,43 @@ def initialize_project():
         full_path.mkdir(parents=True, exist_ok=True)
         print(f"📁 Created folder: {dir_path}")
 
+	# 4. Fill the py_src folder
     if source_scripts_dir_py.exists():
-        print("\nCopying updated scripts...")
+        print("\nCopying python scripts...")
         for script_file in source_scripts_dir_py.glob("*.py"):          
             if script_file.name == "Julia_tool_initializer.py":
                 continue
             shutil.copy(script_file, dest_scripts_dir_py)
             print(f"   ↳ Copied: {script_file.name}")
-        print("\n✨ Project initialized and scripts updated successfully!")
+        print("\n✨ Scripts copied successfully!")
     else:
         print(f"\n⚠️ Warning: Could not find the scripts folder at: {source_scripts_dir_py}")
 
+	# 5. Fill the src folder
     if source_scripts_dir_jl.exists():
-        print("\nCopying updated scripts...")
+        print("\nCopying Julia scripts...")
         for script_file in source_scripts_dir_jl.glob("*.jl"):
             shutil.copy(script_file, dest_scripts_dir_jl)
             print(f"   ↳ Copied: {script_file.name}")
-        print("\n✨ Project initialized and scripts updated successfully!")
+        print("\n✨ Scripts copied successfully!")
     else:
         print(f"\n⚠️ Warning: Could not find the scripts folder at: {source_scripts_dir_jl}")
 
+	# 6. Copy the Project.toml file
+    print("\nCopying project.toml file...")
+    project_path = source_scripts_dir / "Project.toml"
+    if project_path.exists():
+        shutil.copy(project_path, current_dir)
+        print(f"   ↳ Copied: {project_path.name}")
+
+	# 7. Create the Manifest.toml file by running "Julia_instantiatior.jl"
+    result = subprocess.run(["julia", "src/Julia_instantiator.jl"], capture_output=True, text=True)
+    # Stampa l'output restituito dallo script Julia
+    print("STDOUT:", result.stdout)
+    if result.stderr:
+        print("STDERR:", result.stderr)
+
+    print("\n✨ Julia project initialized successfully!")
 
 if __name__ == "__main__":
     initialize_project()

@@ -17,6 +17,11 @@ cd path/to/results/folder
 python path/to/Julia_tools_initializer.py
 ````
 
+As for example, mine command would be:
+````
+python ~/Documents/Julia_tools_for_pre_post_BASEMENT_simulation_analisys/py_src/Julia_tools_initializer.py 
+````
+
 The script is initializing the folders and copying into them the python and julia scripts, which are upgraded to the same version you have downloaded the repository. This script require a local version of the repository, or at least a local version of the script to be copied into.  
 The script already contain a default path, but also ask you if it is correct. By opening the script the default path can be modified of course (line 9).
 
