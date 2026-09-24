@@ -132,18 +132,18 @@ If everything has been set up correctly, the terminal should display the followi
 
 The steps to use this tool are simple, the scripts to be used are 4 in total, and they are:
 
-1. BMv41NodestringResults.py: Python script developed by ETH for extracting the nodestring data to csv (BASEMENT version 4.1);
-2. BMv42NodestringResults.py: Python script developed by ETH for extracting the nodestring data to csv (BASEMENT version 4.2);
+1. BMv41NodestringResultsloop.py: Python script developed by ETH for extracting the nodestring data to csv (BASEMENT version 4.1);
+2. BMv42NodestringResultsloop.py: Python script developed by ETH for extracting the nodestring data to csv (BASEMENT version 4.2);
 
 Use just one of the two, depending on you BASEMENT version. Also the script for BASEMENT version 4.0 is available online at [BASEtools](https://basement.ethz.ch/download/tools/python-scripts.html), in case you need it, pay attention to the inputs/outputs paths.   
-Both this scripts automatically look for file which end with "results.h5" within the "inputs/" folder. It is recommended to extract one file at a time, otherwise only the first file found will be extracted.  
+Both this scripts automatically look for file "*results.h5" within the "inputs/" folder and return as output the "*discharge.csv" file, as amny as the results file.   
 Run both this file typing:
 
 ````
-python py_src/BMv41NodestringResults.py
+python py_src/BMv41NodestringResultsloop.py
 ````
 ````
-python py_src/BMv42NodestringResults.py
+python py_src/BMv42NodestringResultsloop.py
 ````
 
 3. Plot_all.jl: julis script which plot all the node strings, at the execution time, it can be chose to plot all the nodestrings in one graph or to produce a separated file each. Output format is pdf for clearer view, the scripts automatically detect any file which end with "discharge.csv" within the "outputs/" folder.  
@@ -153,7 +153,7 @@ Run the file by typing:
 julia src/plot_all.jl
 ````
 
-In case something go wrong, refer to the "first run" section above.
+In case something goes wrong, refer to the "first run" section above.
 
 4. Custom_plot.jl: Same phylosofy of the previous script, but also allow to plot only some of the nodestring, as you prefer. Is is more flexible, but also slower to be used. Run it using:
 
