@@ -7,7 +7,7 @@ function plot_df!(plt, x, y, label::AbstractString, title::AbstractString)
 
     plt = plot!(x, y;
         # legend=false, 
-        xlabel="Time [s]", 
+        xlabel="Time [h]", 
         # xticks=(ticks, ticklabels),
         # xrotation=30,
         ylabel="Discharge [m³/s]", 
