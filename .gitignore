@@ -33,3 +33,5 @@ outputs/
 docs/personal_notes.md
 
 personal_scripts/
+
+inputs/sim_results.h5
