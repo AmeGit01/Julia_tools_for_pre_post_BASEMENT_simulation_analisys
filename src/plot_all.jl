@@ -98,7 +98,7 @@ function main()
             # plt = plot()
 		    for n ∈ eachindex(Cols[2:end])
 	    		plt = plot_df(xh, df[:, n+1], Cols[n+1][begin:end-7])
-    		    OutputPath = joinpath(OutputFolder, "$(Cols[n+1][begin:end-7]).pdf")
+    		    OutputPath = joinpath(OutputFolder, "$(Cols[n+1][begin:end-7]).png")
     		    savefig(plt, OutputPath)
                 isfile(OutputPath) && println("Saved $(OutputPath)")
             end
