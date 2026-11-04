@@ -6,22 +6,9 @@ from pathlib import Path
 import subprocess
 
 def get_source_directory():
-    # DEFAULT PATH 
-    default_path = Path("/home/amedeo/Documents/Julia_tools_for_pre_post_BASEMENT_simulation_analisys")
-    
-    print(f"📂 Default script storage path:\n   {default_path}")
-    
-    # Ask for user confirmation
-    user_input = input("Is the path correct? [Press ENTER to confirm, or enter a new path]: ").strip()
-    
-    if not user_input:
-        # If the user presses only Enter, use the default path
-        return default_path
-    else:
-        # If the user entered a new path, convert it handling the OS correctly
-        # (using Path automatically handles \ or / separators depending on Windows/Linux)
-        return Path(user_input)
-    
+    # The script lives in <repo>/py_src, so the repo root is two levels up
+    return Path(__file__).resolve().parent.parent
+
 def initialize_project():
     # 1. Define the fixed folder structure of your project
     directories = [
@@ -52,11 +39,11 @@ def initialize_project():
         full_path.mkdir(parents=True, exist_ok=True)
         print(f"📁 Created folder: {dir_path}")
 
-	# 4. Fill the py_src folder
+    # 4. Fill the py_src folder
     if source_scripts_dir_py.exists():
         print("\nCopying python scripts...")
         for script_file in source_scripts_dir_py.glob("*.py"):          
-            if script_file.name == "Julia_tool_initializer.py":
+            if script_file.name == "Julia_tools_initializer.py":
                 continue
             shutil.copy(script_file, dest_scripts_dir_py)
             print(f"   ↳ Copied: {script_file.name}")
@@ -64,7 +51,7 @@ def initialize_project():
     else:
         print(f"\n⚠️ Warning: Could not find the scripts folder at: {source_scripts_dir_py}")
 
-	# 5. Fill the src folder
+    # 5. Fill the src folder
     if source_scripts_dir_jl.exists():
         print("\nCopying Julia scripts...")
         for script_file in source_scripts_dir_jl.glob("*.jl"):
@@ -74,14 +61,14 @@ def initialize_project():
     else:
         print(f"\n⚠️ Warning: Could not find the scripts folder at: {source_scripts_dir_jl}")
 
-	# 6. Copy the Project.toml file
+    # 6. Copy the Project.toml file
     print("\nCopying project.toml file...")
     project_path = source_scripts_dir / "Project.toml"
     if project_path.exists():
         shutil.copy(project_path, current_dir)
         print(f"   ↳ Copied: {project_path.name}")
 
-	# 7. Create the Manifest.toml file by running "Julia_instantiatior.jl"
+    # 7. Create the Manifest.toml file by running "Julia_instantiatior.jl"
     result = subprocess.run(["julia", "src/Julia_instantiator.jl"], capture_output=True, text=True)
     # Stampa l'output restituito dallo script Julia
     print("STDOUT:", result.stdout)
