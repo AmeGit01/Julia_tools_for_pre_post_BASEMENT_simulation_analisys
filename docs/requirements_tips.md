@@ -42,7 +42,7 @@ julia --startup-file=no -e 'using DaemonMode; serve()'
 
 This command starts the server on which the script is executed. Then open a second terminal, navigate again to the repository, and run --- :
 ````
-julia --startup-file=no -e 'using DaemonMode; runargs()' src/mesh_stats.jl inputs/test_mesh.csv inputs/test_regions.txt BASEHPC png 
+julia --startup-file=no -e 'using DaemonMode; runargs()' src/mesh_stats.jl test_mesh.csv test_regions.txt BASEHPC png 
 ````
 
 An even shorter command can be obtained by creating an alias. From the second terminal, run:
@@ -52,4 +52,4 @@ alias juliameshstats='julia --startup-file=no -e "using DaemonMode; runargs()" s
 
 Then the command becomes:
 ````
-juliameshstats inputs/test_mesh.csv inputs/test_regions.txt BASEHPC png 
+juliameshstats test_mesh.csv test_regions.txt BASEHPC png 

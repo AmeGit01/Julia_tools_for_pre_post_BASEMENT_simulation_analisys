@@ -13,12 +13,16 @@ function main()
     InputPath = joinpath(InputFolder, InputFile)
     data = CSV.read(InputPath, DataFrame)
 
-	# compute max eigenvalue for each cell
-	gravity = 9.81
-    λi = data[!, "water_dept"]*gravity + data[!, "flow_veloc"]
+	# safety check: unphysical negative water depths (checked cell by cell,
+	# before the square root, which would fail on a negative value)
+	negative_depth = data[!, "water_dept"] .< 0.0
+	@assert !any(negative_depth) "error: negative water depth in cells $(data[negative_depth, "id"])!!"
 
-	@assert any(λi .≥ 0.0) "error: some eigenvalues are negative!!"
-	
+	# compute max eigenvalue for each cell: λ = u + sqrt(g h)
+	# (flow_veloc is already the velocity magnitude from BASEMENT results)
+	gravity = 9.81
+    λi = data[!, "flow_veloc"] .+ sqrt.(gravity .* data[!, "water_dept"])
+
 	# filter non-zero eigenvalues
 	mask = λi .!= 0.0
 	data_nonzero = data[mask, :]

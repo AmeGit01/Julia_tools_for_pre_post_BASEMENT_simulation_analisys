@@ -2,7 +2,8 @@
 
 using Plots, Plots.Measures, CSV, DataFrames, Infiltrator, Glob
 
-function plot_df!(plt, x, y, label::AbstractString, title::AbstractString)
+function plot_df!(plt, x, y, label::AbstractString, title::AbstractString;
+                  ylabel::AbstractString="Discharge [m³/s]")
 	# xh = x ./ 3600
 
     plt = plot!(x, y;
@@ -10,7 +11,7 @@ function plot_df!(plt, x, y, label::AbstractString, title::AbstractString)
         xlabel="Time [h]", 
         # xticks=(ticks, ticklabels),
         # xrotation=30,
-        ylabel="Discharge [m³/s]", 
+        ylabel=ylabel,
         title=title,
 		label=label,
     )
@@ -35,17 +36,58 @@ end
 const InputFolder = "outputs"
 const OutputFolder = joinpath("outputs", "figures")
 
-function main_custom()
-	InputPath = joinpath(InputFolder, "*discharge.csv")
-    InputFiles = glob(InputPath)
-	println("Found $(length(InputFiles)) CSV files:", InputFiles)
+# ---------------------------------------------------------
+# Quantities that can be plotted
+#   pattern: files searched in InputFolder (only after the choice)
+#   ylabel:  label of the vertical axis
+# ---------------------------------------------------------
+const QUANTITIES = Dict(
+    "discharge" => (name="Discharge", pattern="*discharge.csv", ylabel="Discharge [m³/s]"),
+    "wse"       => (name="Water surface elevation", pattern="*wse.csv", ylabel="WSE [m a.s.l.]"),
+)
 
-    # InputFile = "Discharge_IC_results.csv"
-    # InputPath = joinpath("csv_files", InputFile)
+# Ask the user which quantity to plot and return the list of keys of QUANTITIES
+function choose_quantities()
+    while true
+        println("What do you want to plot?")
+        println("  1) Discharge")
+        println("  2) Water surface elevation (WSE)")
+        println("  3) Both discharge and WSE (consecutively)")
+        print("Type 1, 2 or 3 and press Enter: ")
+        choice = strip(readline())
+        choice == "1" && return ["discharge"]
+        choice == "2" && return ["wse"]
+        choice == "3" && return ["discharge", "wse"]
+        println("Invalid choice '$(choice)', please type 1, 2 or 3.\n")
+    end
+end
+
+# Find the CSV files of a given quantity (empty list if none is present)
+function find_input_files(quantity)
+    q = QUANTITIES[quantity]
+    InputFiles = glob(q.pattern, InputFolder)
+    if isempty(InputFiles)
+        println("\nNo '$(q.pattern)' file found in '$(InputFolder)/': skipping $(q.name).")
+    else
+        println("\n$(q.name): found $(length(InputFiles)) CSV files: ", InputFiles)
+    end
+    return InputFiles
+end
+
+# Remove the unit from a column name, e.g. "Q_name [m3/s]" -> "Q_name"
+strip_unit(col::AbstractString) = replace(col, r"\s*\[[^\]]*\]\s*$" => "")
+
+# Interactive plot of the CSV files of a given quantity ("discharge" or "wse")
+function plot_quantity_custom(quantity)
+    q = QUANTITIES[quantity]
+
+    # Files are searched only now, after the user's choice
+    InputFiles = find_input_files(quantity)
+    isempty(InputFiles) && return nothing
 
 	for File ∈ InputFiles
 		# Read data
-	    println("Reading ", File, "...")
+	    println("\n[$(q.name)] Reading ", File, "...")
 	    df = CSV.read(File, DataFrame)
 
 		# Print columns
@@ -69,10 +111,13 @@ function main_custom()
 		# transform seconds to hours
 		xh = df[:, 1] ./ 3600
 
-		# Reverce eventual wrong directioned nodestring
+		# Reverse eventual wrong directioned nodestring (discharge only:
+		# the sign of the water surface elevation must not be changed)
 		reverse_list = [] # [23, 24]
-		for n ∈ reverse_list
-			df[:, n] .= -df[:, n]
+		if quantity == "discharge"
+			for n ∈ reverse_list
+				df[:, n] .= -df[:, n]
+			end
 		end
 
 		# Plot the data
@@ -82,10 +127,10 @@ function main_custom()
 			if FirstPlot			
 				println("Choose the plot title: ")
 				title = readline()
-				plot_df!(plt, xh, df[:, n], Cols[n][begin:end-7], title)
+				plot_df!(plt, xh, df[:, n], strip_unit(Cols[n]), title; ylabel=q.ylabel)
 				FirstPlot = false
 			else
-				plot_df!(plt, xh, df[:, n], Cols[n][begin:end-7])
+				plot_df!(plt, xh, df[:, n], strip_unit(Cols[n]))
 			end
 		end
 		plot!(plt, size=(800, 600), left_margin=3mm)
@@ -105,6 +150,15 @@ function main_custom()
 
 		@infiltrate false
 	end
+
+    return nothing
+end
+
+function main_custom()
+    # Choose what to plot: 1) discharge, 2) WSE, 3) both
+    for quantity ∈ choose_quantities()
+        plot_quantity_custom(quantity)
+    end
 
     return nothing
 end
